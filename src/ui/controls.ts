@@ -1,6 +1,7 @@
 import type { AppState, DistributionDefinition, IntervalType, ValidationResult } from "../types/distributions";
 import { distributions } from "../data/distributions";
 import { formatParameterLabel } from "../utils/format";
+import { decorativeIconSvg } from "./icons";
 
 interface ControlsCallbacks {
   onDistributionChange: (id: string) => void;
@@ -11,9 +12,9 @@ interface ControlsCallbacks {
 }
 
 const intervalOptions: Array<{ type: IntervalType; label: string; hint: string; icon: string }> = [
-  { type: "left", label: "P(X ≤ a)", hint: "Cola izquierda", icon: "◨" },
+  { type: "left", label: "P(X ≤ a)", hint: "Cola izquierda", icon: "◧" },
   { type: "between", label: "P(a ≤ X ≤ b)", hint: "Intervalo central", icon: "▥" },
-  { type: "right", label: "P(X ≥ a)", hint: "Cola derecha", icon: "◧" },
+  { type: "right", label: "P(X ≥ a)", hint: "Cola derecha", icon: "◨" },
   { type: "outside", label: "Extremos", hint: "Exterior del intervalo", icon: "◫" }
 ];
 
@@ -79,7 +80,10 @@ export function renderControls(
     <section class="control-section">
       <div class="section-row">
         <h2>Parámetros</h2>
-        <button class="ghost-button" id="reset-params" type="button">Restablecer</button>
+        <button class="ghost-button" id="reset-params" type="button">
+          <span class="button-icon" aria-hidden="true">${decorativeIconSvg("rotate-ccw", 16)}</span>
+          <span>Restablecer</span>
+        </button>
       </div>
       <div class="parameter-grid">${params}</div>
     </section>

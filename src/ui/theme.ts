@@ -1,3 +1,5 @@
+import { decorativeIconSvg } from "./icons";
+
 export function initTheme(button: HTMLButtonElement): void {
   const stored = localStorage.getItem("probabilitylab-theme");
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -15,5 +17,6 @@ export function initTheme(button: HTMLButtonElement): void {
 
 function updateLabel(button: HTMLButtonElement): void {
   const dark = document.documentElement.classList.contains("dark");
+  button.querySelector(".button-icon")!.innerHTML = decorativeIconSvg(dark ? "sun" : "moon", 18);
   button.querySelector("span:last-child")!.textContent = dark ? "Tema claro" : "Tema oscuro";
 }

@@ -9,6 +9,7 @@ import { renderChart, renderEmptyChart } from "./ui/chart";
 import { renderControls } from "./ui/controls";
 import { renderDiscreteTable } from "./ui/table";
 import { initTheme } from "./ui/theme";
+import { decorativeIconSvg } from "./ui/icons";
 
 const controls = document.querySelector<HTMLElement>("#controls")!;
 const canvas = document.querySelector<HTMLCanvasElement>("#probability-chart")!;
@@ -105,9 +106,9 @@ copyButton.addEventListener("click", async () => {
     return;
   }
   await navigator.clipboard.writeText(latestResultText);
-  copyButton.textContent = "Copiado";
+  copyButton.querySelector("span:last-child")!.textContent = "Copiado";
   window.setTimeout(() => {
-    copyButton.textContent = "Copiar";
+    copyButton.querySelector("span:last-child")!.textContent = "Copiar";
   }, 1200);
 });
 
@@ -119,6 +120,8 @@ downloadButton.addEventListener("click", () => {
 });
 
 initTheme(themeButton);
+document.querySelector<HTMLElement>("#download-chart-icon")!.innerHTML = decorativeIconSvg("download", 19);
+document.querySelector<HTMLElement>("#copy-result-icon")!.innerHTML = decorativeIconSvg("copy", 17);
 update();
 
 window.addEventListener("resize", () => {

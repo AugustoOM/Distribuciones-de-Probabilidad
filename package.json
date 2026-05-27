@@ -11,5 +11,8 @@
   "devDependencies": {
     "typescript": "^5.9.0",
     "vite": "^8.0.0"
+  },
+  "dependencies": {
+    "feather-icons": "^4.29.2"
   }
 }
