@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="ProbabilityLab: calculadora interactiva de distribuciones de probabilidad."
+    />
+    <title>ProbabilityLab</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Laboratorio estadistico interactivo</p>
+          <h1>ProbabilityLab</h1>
+        </div>
+        <div class="header-actions">
+          <button class="icon-button" id="download-chart" type="button" title="Descargar grafico">
+            <span aria-hidden="true">↓</span>
+            <span class="sr-only">Descargar grafico</span>
+          </button>
+          <button class="theme-toggle" id="theme-toggle" type="button">
+            <span aria-hidden="true">◐</span>
+            <span>Cambiar tema</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="app-shell">
+        <aside class="control-panel" id="controls" aria-label="Controles de distribucion"></aside>
+
+        <main class="workspace">
+          <section class="summary-band" aria-live="polite">
+            <div>
+              <p class="section-label">Resultado</p>
+              <h2 id="result-expression">Selecciona una distribucion</h2>
+            </div>
+            <button class="copy-button" id="copy-result" type="button">Copiar</button>
+          </section>
+
+          <section class="chart-stage" aria-label="Grafico de distribucion">
+            <canvas id="probability-chart" width="1200" height="680"></canvas>
+          </section>
+
+          <section class="info-grid">
+            <article class="distribution-note">
+              <p class="section-label">Descripcion</p>
+              <h3 id="distribution-title"></h3>
+              <p id="distribution-description"></p>
+              <p class="example" id="distribution-example"></p>
+            </article>
+            <article class="discrete-table-card" id="discrete-table-card" hidden>
+              <div class="table-heading">
+                <div>
+                  <p class="section-label">Tabla discreta</p>
+                  <h3>Valores incluidos</h3>
+                </div>
+              </div>
+              <div id="discrete-table"></div>
+            </article>
+          </section>
+        </main>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
