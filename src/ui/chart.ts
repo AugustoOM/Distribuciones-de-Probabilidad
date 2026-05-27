@@ -78,7 +78,7 @@ function renderContinuous(
     const y = math.pdf(x);
     return { x, y: Number.isFinite(y) ? y : 0 };
   });
-  const maxY = Math.max(...points.map((point) => point.y), 1e-8) * 1.12;
+  const maxY = Math.max(...points.map((point) => point.y), 1e-8) * 1.38;
   const xToPixel = (x: number) => padding.left + ((x - minX) / (maxX - minX)) * plotWidth;
   const yToPixel = (y: number) => padding.top + plotHeight - (y / maxY) * plotHeight;
 
@@ -149,7 +149,7 @@ function renderDiscrete(
   const plotHeight = height - padding.top - padding.bottom;
   const math = createDiscreteMath(distribution, params);
   const rows = math.support.map((k) => ({ k, probability: math.pmf(k), included: result.includedValues.includes(k) }));
-  const maxY = Math.max(...rows.map((row) => row.probability), 1e-8) * 1.18;
+  const maxY = Math.max(...rows.map((row) => row.probability), 1e-8) * 1.45;
   const barGap = Math.max(2, Math.min(12, plotWidth / rows.length / 4));
   const barWidth = Math.max(4, plotWidth / rows.length - barGap);
   const yToPixel = (y: number) => padding.top + plotHeight - (y / maxY) * plotHeight;
