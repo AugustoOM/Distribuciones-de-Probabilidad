@@ -2,7 +2,7 @@ import "./style.css";
 import { distributions, getDistribution } from "./data/distributions";
 import { calculateProbability } from "./math/probability";
 import { createDiscreteMath } from "./math/discrete";
-import type { AppState, DiscreteRow, DistributionId, IntervalType } from "./types/distributions";
+import type { AppState, DiscreteRow, IntervalType } from "./types/distributions";
 import { formatProbability } from "./utils/format";
 import { validateInputs } from "./utils/validation";
 import { renderChart, renderEmptyChart } from "./ui/chart";
@@ -75,7 +75,7 @@ function update(): void {
     latestResultText = "";
     tableCard.hidden = true;
     tableContainer.innerHTML = "";
-    renderEmptyChart(canvas, "Datos invalidos");
+    renderEmptyChart(canvas, "Datos inválidos");
     return;
   }
 

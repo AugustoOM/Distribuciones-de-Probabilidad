@@ -4,7 +4,7 @@ function hasNumber(value: number | undefined): value is number {
   return typeof value === "number" && Number.isFinite(value);
 }
 
-function isIntegerPositive(value: number | undefined): boolean {
+function isIntegerPositive(value: number | undefined): value is number {
   return hasNumber(value) && Number.isInteger(value) && value > 0;
 }
 
@@ -24,7 +24,7 @@ export function validateInputs(
   for (const parameter of distribution.parameters) {
     const current = params[parameter.key];
     if (!hasNumber(current)) {
-      errors.push(`${parameter.label} debe ser un numero valido.`);
+      errors.push(`${parameter.label} debe ser un número válido.`);
       continue;
     }
     if (parameter.integer && !Number.isInteger(current)) {
@@ -42,7 +42,7 @@ export function validateInputs(
     const current = params[key as keyof ParameterValues];
     return current !== undefined && !isPositive(current);
   })) {
-    errors.push("Los parametros de escala, forma y grados de libertad deben ser mayores que 0.");
+    errors.push("Los parámetros de escala, forma y grados de libertad deben ser mayores que 0.");
   }
 
   if (params.p !== undefined && (params.p < 0 || params.p > 1)) {
@@ -64,20 +64,23 @@ export function validateInputs(
     if (!isIntegerPositive(N) || !isIntegerPositive(K) || !isIntegerPositive(n)) {
       errors.push("N, K y n deben ser enteros positivos.");
     } else {
-      if (K > N) {
-        errors.push("En Hypergeometric, K debe ser menor o igual que N.");
+      const population = N;
+      const successes = K;
+      const sample = n;
+      if (successes > population) {
+        errors.push("En la distribución hipergeométrica, K debe ser menor o igual que N.");
       }
-      if (n > N) {
-        errors.push("En Hypergeometric, n debe ser menor o igual que N.");
+      if (sample > population) {
+        errors.push("En la distribución hipergeométrica, n debe ser menor o igual que N.");
       }
     }
   }
 
   if (!Number.isFinite(a)) {
-    errors.push("El limite a debe ser un numero valido.");
+    errors.push("El límite a debe ser un número válido.");
   }
   if ((intervalType === "between" || intervalType === "outside") && !Number.isFinite(b)) {
-    errors.push("El limite b debe ser un numero valido.");
+    errors.push("El límite b debe ser un número válido.");
   }
   if ((intervalType === "between" || intervalType === "outside") && Number.isFinite(a) && Number.isFinite(b) && a > b) {
     errors.push("En intervalos centrales o exteriores se debe cumplir a ≤ b.");

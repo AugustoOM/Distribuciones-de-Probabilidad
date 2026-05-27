@@ -71,14 +71,14 @@ export function renderControls(
   container.innerHTML = `
     <section class="control-section">
       <label class="field field-full">
-        <span>Distribucion</span>
+        <span>Distribución</span>
         <select id="distribution-select">${selectorOptions}</select>
       </label>
     </section>
 
     <section class="control-section">
       <div class="section-row">
-        <h2>Parametros</h2>
+        <h2>Parámetros</h2>
         <button class="ghost-button" id="reset-params" type="button">Restablecer</button>
       </div>
       <div class="parameter-grid">${params}</div>
@@ -104,7 +104,7 @@ export function renderControls(
     </section>
 
     <section class="control-section validation-box ${validation.valid ? "is-valid" : ""}">
-      <h2>Validacion</h2>
+      <h2>Validación</h2>
       ${validation.valid ? "<p>Listo para calcular.</p>" : `<ul>${errors}</ul>`}
     </section>
   `;

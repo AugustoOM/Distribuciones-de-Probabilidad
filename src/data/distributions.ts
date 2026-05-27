@@ -9,46 +9,46 @@ export const distributions: DistributionDefinition[] = [
     name: "Normal",
     kind: "continuous",
     parameters: [
-      { key: "mu", label: "μ", description: "Media de la distribucion.", step: 0.1 },
-      { key: "sigma", label: "σ", description: "Desviacion estandar, mayor que 0.", ...positive }
+      { key: "mu", label: "μ", description: "Media de la distribución.", step: 0.1 },
+      { key: "sigma", label: "σ", description: "Desviación estándar, mayor que 0.", ...positive }
     ],
     defaults: { mu: 0, sigma: 1 },
-    description: "Modelo continuo simetrico usado para errores, mediciones y fenomenos agregados.",
-    example: "Ejemplo: alturas, puntajes estandarizados o errores de medicion."
+    description: "Modelo continuo simétrico usado para errores, mediciones y fenómenos agregados.",
+    example: "Ejemplo: alturas, puntajes estandarizados o errores de medición."
   },
   {
     id: "student",
-    name: "Student t",
+    name: "t de Student",
     kind: "continuous",
     parameters: [{ key: "df", label: "ν", description: "Grados de libertad.", ...positive }],
     defaults: { df: 8 },
-    description: "Distribucion simetrica con colas pesadas, frecuente en inferencia con muestras pequenas.",
+    description: "Distribución simétrica con colas pesadas, frecuente en inferencia con muestras pequeñas.",
     example: "Ejemplo: contraste de medias cuando la varianza poblacional es desconocida."
   },
   {
     id: "chiSquared",
-    name: "Chi-Squared",
+    name: "Chi-cuadrado",
     kind: "continuous",
     parameters: [{ key: "df", label: "ν", description: "Grados de libertad.", ...positive }],
     defaults: { df: 4 },
-    description: "Distribucion positiva asociada a sumas de cuadrados de normales estandar.",
+    description: "Distribución positiva asociada a sumas de cuadrados de normales estándar.",
     example: "Ejemplo: pruebas de bondad de ajuste o intervalos para varianzas."
   },
   {
     id: "fDistribution",
-    name: "F-Distribution",
+    name: "Distribución F",
     kind: "continuous",
     parameters: [
       { key: "df1", label: "ν1", description: "Grados de libertad del numerador.", ...positive },
       { key: "df2", label: "ν2", description: "Grados de libertad del denominador.", ...positive }
     ],
     defaults: { df1: 5, df2: 12 },
-    description: "Distribucion positiva para razones de varianzas independientes.",
-    example: "Ejemplo: analisis de varianza y comparacion de modelos."
+    description: "Distribución positiva para razones de varianzas independientes.",
+    example: "Ejemplo: análisis de varianza y comparación de modelos."
   },
   {
     id: "exponential",
-    name: "Exponential",
+    name: "Exponencial",
     kind: "continuous",
     parameters: [{ key: "lambda", label: "λ", description: "Tasa de ocurrencia.", ...positive }],
     defaults: { lambda: 1 },
@@ -60,35 +60,35 @@ export const distributions: DistributionDefinition[] = [
     name: "Cauchy",
     kind: "continuous",
     parameters: [
-      { key: "x0", label: "x0", description: "Parametro de localizacion.", step: 0.1 },
-      { key: "gamma", label: "γ", description: "Parametro de escala, mayor que 0.", ...positive }
+      { key: "x0", label: "x0", description: "Parámetro de localización.", step: 0.1 },
+      { key: "gamma", label: "γ", description: "Parámetro de escala, mayor que 0.", ...positive }
     ],
     defaults: { x0: 0, gamma: 1 },
-    description: "Distribucion simetrica de colas muy pesadas, sin media ni varianza definidas.",
-    example: "Ejemplo: cociente de dos normales estandar independientes."
+    description: "Distribución simétrica de colas muy pesadas, sin media ni varianza definidas.",
+    example: "Ejemplo: cociente de dos normales estándar independientes."
   },
   {
     id: "weibull",
     name: "Weibull",
     kind: "continuous",
     parameters: [
-      { key: "k", label: "k", description: "Parametro de forma.", ...positive },
-      { key: "lambda", label: "λ", description: "Parametro de escala.", ...positive }
+      { key: "k", label: "k", description: "Parámetro de forma.", ...positive },
+      { key: "lambda", label: "λ", description: "Parámetro de escala.", ...positive }
     ],
     defaults: { k: 1.5, lambda: 1 },
     description: "Modelo flexible para tiempos de vida y confiabilidad.",
-    example: "Ejemplo: duracion de componentes mecanicos."
+    example: "Ejemplo: duración de componentes mecánicos."
   },
   {
     id: "gamma",
     name: "Gamma",
     kind: "continuous",
     parameters: [
-      { key: "alpha", label: "α", description: "Parametro de forma.", ...positive },
-      { key: "theta", label: "θ", description: "Parametro de escala.", ...positive }
+      { key: "alpha", label: "α", description: "Parámetro de forma.", ...positive },
+      { key: "theta", label: "θ", description: "Parámetro de escala.", ...positive }
     ],
     defaults: { alpha: 2, theta: 1 },
-    description: "Distribucion positiva para tiempos acumulados y variables sesgadas a derecha.",
+    description: "Distribución positiva para tiempos acumulados y variables sesgadas a la derecha.",
     example: "Ejemplo: tiempo total hasta varios eventos independientes."
   },
   {
@@ -96,59 +96,59 @@ export const distributions: DistributionDefinition[] = [
     name: "Beta",
     kind: "continuous",
     parameters: [
-      { key: "alpha", label: "α", description: "Parametro de forma izquierdo.", ...positive },
-      { key: "beta", label: "β", description: "Parametro de forma derecho.", ...positive }
+      { key: "alpha", label: "α", description: "Parámetro de forma izquierdo.", ...positive },
+      { key: "beta", label: "β", description: "Parámetro de forma derecho.", ...positive }
     ],
     defaults: { alpha: 2, beta: 5 },
-    description: "Distribucion sobre el intervalo [0, 1], ideal para proporciones.",
-    example: "Ejemplo: incertidumbre sobre una tasa de conversion."
+    description: "Distribución sobre el intervalo [0, 1], ideal para proporciones.",
+    example: "Ejemplo: incertidumbre sobre una tasa de conversión."
   },
   {
     id: "logNormal",
-    name: "Log-Normal",
+    name: "Log-normal",
     kind: "continuous",
     parameters: [
       { key: "mu", label: "μ", description: "Media del logaritmo.", step: 0.1 },
-      { key: "sigma", label: "σ", description: "Desviacion estandar del logaritmo.", ...positive }
+      { key: "sigma", label: "σ", description: "Desviación estándar del logaritmo.", ...positive }
     ],
     defaults: { mu: 0, sigma: 0.5 },
     description: "Modelo positivo para variables cuyo logaritmo es normal.",
-    example: "Ejemplo: precios, tamanos o tiempos multiplicativos."
+    example: "Ejemplo: precios, tamaños o tiempos multiplicativos."
   },
   {
     id: "logistic",
-    name: "Logistic",
+    name: "Logística",
     kind: "continuous",
     parameters: [
-      { key: "mu", label: "μ", description: "Parametro de localizacion.", step: 0.1 },
-      { key: "s", label: "s", description: "Parametro de escala.", ...positive }
+      { key: "mu", label: "μ", description: "Parámetro de localización.", step: 0.1 },
+      { key: "s", label: "s", description: "Parámetro de escala.", ...positive }
     ],
     defaults: { mu: 0, s: 1 },
-    description: "Distribucion simetrica similar a la normal, con CDF de forma sigmoide.",
-    example: "Ejemplo: modelos de crecimiento y regresion logistica latente."
+    description: "Distribución simétrica similar a la normal, con función acumulada de forma sigmoide.",
+    example: "Ejemplo: modelos de crecimiento y regresión logística latente."
   },
   {
     id: "binomial",
     name: "Binomial",
     kind: "discrete",
     parameters: [
-      { key: "n", label: "n", description: "Numero de ensayos.", ...integerPositive },
-      { key: "p", label: "p", description: "Probabilidad de exito por ensayo.", min: 0, max: 1, step: 0.01 }
+      { key: "n", label: "n", description: "Número de ensayos.", ...integerPositive },
+      { key: "p", label: "p", description: "Probabilidad de éxito por ensayo.", min: 0, max: 1, step: 0.01 }
     ],
     defaults: { n: 10, p: 0.4 },
-    description: "Cuenta exitos en un numero fijo de ensayos independientes.",
+    description: "Cuenta éxitos en un número fijo de ensayos independientes.",
     example: "Ejemplo: cantidad de respuestas correctas en 10 preguntas binarias."
   },
   {
     id: "negativeBinomial",
-    name: "Pascal / Negative Binomial",
+    name: "Pascal / binomial negativa",
     kind: "discrete",
     parameters: [
-      { key: "r", label: "r", description: "Cantidad de exitos objetivo.", ...integerPositive },
-      { key: "p", label: "p", description: "Probabilidad de exito por ensayo.", min: 0, max: 1, step: 0.01 }
+      { key: "r", label: "r", description: "Cantidad de éxitos objetivo.", ...integerPositive },
+      { key: "p", label: "p", description: "Probabilidad de éxito por ensayo.", min: 0, max: 1, step: 0.01 }
     ],
     defaults: { r: 4, p: 0.45 },
-    description: "Cuenta fallos antes de alcanzar una cantidad fija de exitos.",
+    description: "Cuenta fallos antes de alcanzar una cantidad fija de éxitos.",
     example: "Ejemplo: fallos antes del cuarto acierto en intentos independientes."
   },
   {
@@ -162,15 +162,15 @@ export const distributions: DistributionDefinition[] = [
   },
   {
     id: "hypergeometric",
-    name: "Hypergeometric",
+    name: "Hipergeométrica",
     kind: "discrete",
     parameters: [
-      { key: "N", label: "N", description: "Tamano de la poblacion.", ...integerPositive },
-      { key: "K", label: "K", description: "Exitos en la poblacion.", ...integerPositive },
-      { key: "n", label: "n", description: "Tamano de la muestra.", ...integerPositive }
+      { key: "N", label: "N", description: "Tamaño de la población.", ...integerPositive },
+      { key: "K", label: "K", description: "Éxitos en la población.", ...integerPositive },
+      { key: "n", label: "n", description: "Tamaño de la muestra.", ...integerPositive }
     ],
     defaults: { N: 40, K: 12, n: 8 },
-    description: "Cuenta exitos al muestrear sin reemplazo desde una poblacion finita.",
+    description: "Cuenta éxitos al muestrear sin reemplazo desde una población finita.",
     example: "Ejemplo: piezas defectuosas en una muestra sin reemplazo."
   }
 ];
@@ -178,7 +178,7 @@ export const distributions: DistributionDefinition[] = [
 export function getDistribution(id: string): DistributionDefinition {
   const distribution = distributions.find((item) => item.id === id);
   if (!distribution) {
-    throw new Error(`Distribucion desconocida: ${id}`);
+    throw new Error(`Distribución desconocida: ${id}`);
   }
   return distribution;
 }
