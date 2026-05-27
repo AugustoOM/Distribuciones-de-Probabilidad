@@ -12,6 +12,7 @@ export function calculateProbability(
   b: number
 ): ProbabilityResult {
   const expression = formatExpression(intervalType, a, b);
+  const intervalLimits = intervalType === "left" || intervalType === "right" ? [a] : [a, b];
 
   if (distribution.kind === "continuous") {
     const math = createContinuousMath(distribution, params);
@@ -27,11 +28,11 @@ export function calculateProbability(
                 { start: b, end: math.domain[1] }
               ]
             : [{ start: a, end: b }];
-    return { expression, value, includedValues: [], shadedRanges };
+    return { expression, value, intervalLimits, includedValues: [], shadedRanges };
   }
 
   const math = createDiscreteMath(distribution, params);
   const includedValues = discreteIncludedValues(math.support, intervalType, a, b);
   const value = clampProbability(includedValues.reduce((total, k) => total + math.pmf(k), 0));
-  return { expression, value, includedValues, shadedRanges: [] };
+  return { expression, value, intervalLimits, includedValues, shadedRanges: [] };
 }

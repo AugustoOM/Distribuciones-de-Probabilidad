@@ -349,19 +349,20 @@ select:focus {
 
 .chart-stage {
   margin-top: 20px;
-  min-height: 420px;
+  width: min(100%, 1280px);
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--surface);
   box-shadow: var(--shadow);
   overflow: hidden;
+  margin-inline: auto;
 }
 
 canvas {
   display: block;
   width: 100%;
-  height: min(62vh, 640px);
-  min-height: 380px;
+  height: auto;
+  aspect-ratio: 1200 / 680;
 }
 
 .info-grid {
@@ -480,6 +481,6 @@ tr.included {
   }
 
   canvas {
-    height: 430px;
+    aspect-ratio: 1 / 1;
   }
 }

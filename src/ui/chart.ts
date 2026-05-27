@@ -12,6 +12,8 @@ interface ChartTheme {
   muted: string;
 }
 
+type ChartPadding = { top: number; right: number; bottom: number; left: number };
+
 function getTheme(): ChartTheme {
   const styles = getComputedStyle(document.documentElement);
   return {
@@ -119,15 +121,10 @@ function renderContinuous(
 
   ctx.strokeStyle = theme.primary;
   ctx.lineWidth = 2;
-  result.shadedRanges.forEach((range) => {
-    [range.start, range.end].forEach((limit) => {
-      if (limit >= minX && limit <= maxX) {
-        ctx.beginPath();
-        ctx.moveTo(xToPixel(limit), padding.top);
-        ctx.lineTo(xToPixel(limit), padding.top + plotHeight);
-        ctx.stroke();
-      }
-    });
+  result.intervalLimits.forEach((limit, index) => {
+    if (limit >= minX && limit <= maxX) {
+      drawLimitMarker(ctx, xToPixel(limit), padding, plotHeight, theme, `${index === 0 ? "a" : "b"} = ${formatNumber(limit, 3)}`);
+    }
   });
 }
 
@@ -149,13 +146,16 @@ function renderDiscrete(
   const plotHeight = height - padding.top - padding.bottom;
   const math = createDiscreteMath(distribution, params);
   const rows = math.support.map((k) => ({ k, probability: math.pmf(k), included: result.includedValues.includes(k) }));
+  const minX = rows[0]?.k ?? 0;
+  const maxX = rows.at(-1)?.k ?? 1;
   const maxY = Math.max(...rows.map((row) => row.probability), 1e-8) * 1.45;
   const barGap = Math.max(2, Math.min(12, plotWidth / rows.length / 4));
   const barWidth = Math.max(4, plotWidth / rows.length - barGap);
+  const xToPixel = (x: number) => padding.left + ((x - minX) / Math.max(1, maxX - minX)) * plotWidth;
   const yToPixel = (y: number) => padding.top + plotHeight - (y / maxY) * plotHeight;
 
   clear(ctx, width, height);
-  drawGrid(ctx, width, height, padding, theme, rows[0]?.k ?? 0, rows.at(-1)?.k ?? 1, maxY);
+  drawGrid(ctx, width, height, padding, theme, minX, maxX, maxY);
 
   rows.forEach((row, index) => {
     const x = padding.left + index * (plotWidth / rows.length) + barGap / 2;
@@ -173,6 +173,12 @@ function renderDiscrete(
     if (index % labelStep === 0 || index === rows.length - 1) {
       const x = padding.left + index * (plotWidth / rows.length) + barWidth / 2;
       ctx.fillText(String(row.k), x, padding.top + plotHeight + 38);
+    }
+  });
+
+  result.intervalLimits.forEach((limit, index) => {
+    if (limit >= minX && limit <= maxX) {
+      drawLimitMarker(ctx, xToPixel(limit), padding, plotHeight, theme, `${index === 0 ? "a" : "b"} = ${formatNumber(limit, 3)}`);
     }
   });
 }
@@ -222,6 +228,41 @@ function drawGrid(
     const x = padding.left + (i / 6) * plotWidth;
     ctx.fillText(formatNumber(minX + (i / 6) * (maxX - minX), 2), x, padding.top + plotHeight + 18);
   }
+}
+
+function drawLimitMarker(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  padding: ChartPadding,
+  plotHeight: number,
+  theme: ChartTheme,
+  label: string
+): void {
+  const yTop = padding.top;
+  const yBottom = padding.top + plotHeight;
+  ctx.save();
+  ctx.strokeStyle = theme.primary;
+  ctx.fillStyle = theme.primary;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(x, yTop);
+  ctx.lineTo(x, yBottom);
+  ctx.stroke();
+
+  ctx.font = '18px "Google Sans", "Product Sans", system-ui, sans-serif';
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  const labelWidth = ctx.measureText(label).width + 18;
+  const labelHeight = 30;
+  const minLabelX = padding.left + labelWidth / 2;
+  const maxLabelX = ctx.canvas.width - padding.right - labelWidth / 2;
+  const labelX = Math.min(maxLabelX, Math.max(minLabelX, x));
+  const labelY = yTop + 18;
+  roundRect(ctx, labelX - labelWidth / 2, labelY - labelHeight / 2, labelWidth, labelHeight, 8);
+  ctx.fill();
+  ctx.fillStyle = "#ffffff";
+  ctx.fillText(label, labelX, labelY);
+  ctx.restore();
 }
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number): void {

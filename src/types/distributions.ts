@@ -77,6 +77,7 @@ export interface ContinuousRange {
 export interface ProbabilityResult {
   expression: string;
   value: number;
+  intervalLimits: number[];
   includedValues: number[];
   shadedRanges: ContinuousRange[];
 }
