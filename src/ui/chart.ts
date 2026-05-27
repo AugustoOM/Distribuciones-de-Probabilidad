@@ -36,7 +36,7 @@ export function renderEmptyChart(canvas: HTMLCanvasElement, message: string): vo
   const { width, height } = canvas;
   clear(ctx, width, height);
   ctx.fillStyle = getTheme().text;
-  ctx.font = "28px Inter, system-ui, sans-serif";
+  ctx.font = '28px "Google Sans", "Product Sans", system-ui, sans-serif';
   ctx.textAlign = "center";
   ctx.fillText(message, width / 2, height / 2);
 }
@@ -166,7 +166,7 @@ function renderDiscrete(
   });
 
   ctx.fillStyle = theme.text;
-  ctx.font = "22px Inter, system-ui, sans-serif";
+  ctx.font = '22px "Google Sans", "Product Sans", system-ui, sans-serif';
   ctx.textAlign = "center";
   const labelStep = Math.ceil(rows.length / 14);
   rows.forEach((row, index) => {
@@ -192,7 +192,7 @@ function drawGrid(
   ctx.strokeStyle = theme.grid;
   ctx.lineWidth = 1;
   ctx.fillStyle = theme.text;
-  ctx.font = "20px Inter, system-ui, sans-serif";
+  ctx.font = '20px "Google Sans", "Product Sans", system-ui, sans-serif';
   ctx.textAlign = "right";
   ctx.textBaseline = "middle";
 
