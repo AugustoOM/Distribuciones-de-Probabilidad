@@ -1,5 +1,5 @@
 import type { DistributionDefinition, ParameterValues } from "../types/distributions";
-import { clampProbability, logCombination } from "./special";
+import { clampProbability, logCombination, logGamma } from "./special";
 
 export interface DiscreteDistributionMath {
   pmf: (k: number) => number;
@@ -79,7 +79,10 @@ export function createDiscreteMath(distribution: DistributionDefinition, params:
         if (!Number.isInteger(k) || k < 0) {
           return 0;
         }
-        return Math.exp(k * Math.log(lambda) - lambda - logCombination(k, k));
+        if (lambda === 0) {
+          return k === 0 ? 1 : 0;
+        }
+        return Math.exp(k * Math.log(lambda) - lambda - logGamma(k + 1));
       };
       const support: number[] = [];
       let cumulative = 0;

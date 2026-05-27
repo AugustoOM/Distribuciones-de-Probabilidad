@@ -14,6 +14,10 @@ interface ChartTheme {
 
 type ChartPadding = { top: number; right: number; bottom: number; left: number };
 
+interface GridOptions {
+  xLabels?: boolean;
+}
+
 function getTheme(): ChartTheme {
   const styles = getComputedStyle(document.documentElement);
   return {
@@ -149,16 +153,17 @@ function renderDiscrete(
   const minX = rows[0]?.k ?? 0;
   const maxX = rows.at(-1)?.k ?? 1;
   const maxY = Math.max(...rows.map((row) => row.probability), 1e-8) * 1.45;
-  const barGap = Math.max(2, Math.min(12, plotWidth / rows.length / 4));
-  const barWidth = Math.max(4, plotWidth / rows.length - barGap);
-  const xToPixel = (x: number) => padding.left + ((x - minX) / Math.max(1, maxX - minX)) * plotWidth;
+  const stepWidth = plotWidth / Math.max(1, rows.length);
+  const barGap = Math.max(2, Math.min(12, stepWidth / 4));
+  const barWidth = Math.max(4, stepWidth - barGap);
+  const xToPixel = (x: number) => padding.left + ((x - minX + 0.5) / Math.max(1, rows.length)) * plotWidth;
   const yToPixel = (y: number) => padding.top + plotHeight - (y / maxY) * plotHeight;
 
   clear(ctx, width, height);
-  drawGrid(ctx, width, height, padding, theme, minX, maxX, maxY);
+  drawGrid(ctx, width, height, padding, theme, minX, maxX, maxY, { xLabels: false });
 
   rows.forEach((row, index) => {
-    const x = padding.left + index * (plotWidth / rows.length) + barGap / 2;
+    const x = padding.left + index * stepWidth + barGap / 2;
     const y = yToPixel(row.probability);
     ctx.fillStyle = row.included ? theme.primary : theme.muted;
     roundRect(ctx, x, y, barWidth, padding.top + plotHeight - y, 7);
@@ -171,8 +176,8 @@ function renderDiscrete(
   const labelStep = Math.ceil(rows.length / 14);
   rows.forEach((row, index) => {
     if (index % labelStep === 0 || index === rows.length - 1) {
-      const x = padding.left + index * (plotWidth / rows.length) + barWidth / 2;
-      ctx.fillText(String(row.k), x, padding.top + plotHeight + 38);
+      const x = padding.left + index * stepWidth + stepWidth / 2;
+      ctx.fillText(String(row.k), x, padding.top + plotHeight + 28);
     }
   });
 
@@ -191,7 +196,8 @@ function drawGrid(
   theme: ChartTheme,
   minX: number,
   maxX: number,
-  maxY: number
+  maxY: number,
+  options: GridOptions = {}
 ): void {
   const plotWidth = width - padding.left - padding.right;
   const plotHeight = height - padding.top - padding.bottom;
@@ -221,12 +227,14 @@ function drawGrid(
   ctx.lineTo(padding.left, padding.top + plotHeight);
   ctx.stroke();
 
-  ctx.fillStyle = theme.text;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "top";
-  for (let i = 0; i <= 6; i += 1) {
-    const x = padding.left + (i / 6) * plotWidth;
-    ctx.fillText(formatNumber(minX + (i / 6) * (maxX - minX), 2), x, padding.top + plotHeight + 18);
+  if (options.xLabels !== false) {
+    ctx.fillStyle = theme.text;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    for (let i = 0; i <= 6; i += 1) {
+      const x = padding.left + (i / 6) * plotWidth;
+      ctx.fillText(formatNumber(minX + (i / 6) * (maxX - minX), 2), x, padding.top + plotHeight + 18);
+    }
   }
 }
 
